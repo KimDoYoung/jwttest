@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 
 var util = {};
-util.successTrue = data => {
+util.successTrue = function(data){
   return {
     success: true,
     message: null,
@@ -10,7 +10,7 @@ util.successTrue = data => {
     data: data,
   };
 };
-util.successFalse = (err, message) => {
+util.successFalse = function(err, message) {
   if (!err && !message) {
     message = 'data not found';
   }
@@ -18,10 +18,11 @@ util.successFalse = (err, message) => {
     success: false,
     message: message,
     errors: err ? util.parseError(err) : null,
-    data: data,
+    data: null,
   };
 };
 util.parseError = function(errors) {
+  if(!errors) return null;
   //3
   var parsed = {};
   if (errors.name == 'ValidationError') {
@@ -37,7 +38,7 @@ util.parseError = function(errors) {
   return parsed;
 };
 //middlewares
-util.isLoggedin = (req, res, next) => {
+util.isLoggedin = function(req, res, next){
   var token = req.headers['x-access-token'];
   if (!token) return res.json(util.successFalse(null, 'token is required'));
   else {

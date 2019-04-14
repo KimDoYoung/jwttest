@@ -135,6 +135,7 @@ userSchema.pre('save', function(next) {
 // model methods
 userSchema.methods.authenticate = function(password) {
   var user = this;
+  console.log("111password:", password, " " , user.password);
   return bcrypt.compareSync(password, user.password);
 };
 
